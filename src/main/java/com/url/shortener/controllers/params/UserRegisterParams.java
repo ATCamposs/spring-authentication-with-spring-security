@@ -15,7 +15,6 @@ public class UserRegisterParams {
     @NotEmpty
     public String username;
 
-    @NotEmpty
     @Email
     public String email;
 
@@ -24,7 +23,10 @@ public class UserRegisterParams {
 
     @Mapper
     public interface Mappers {
-        @Mapping(target = "password")
-        User toModel(UserRegisterParams params);
+        @Mapping(target = "updatedAt", ignore = true)
+        @Mapping(target = "roles", ignore = true)
+        @Mapping(target = "id", ignore = true)
+        @Mapping(target = "createdAt", ignore = true)
+        User toModel(UserRegisterParams user);
     }
 }

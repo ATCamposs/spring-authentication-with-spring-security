@@ -42,23 +42,18 @@ public class AuthController {
     JwtUtils jwtUtils;
 
     @PostMapping(path = "/sign_in", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> authenticateUser(@Valid @RequestBody LoginParams loginParams) {
+    public ResponseEntity<String> authenticateUser(@Valid @RequestBody LoginParams loginParams) {
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(loginParams.email, loginParams.password));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+        var token = jwtUtils.generateTokenFromEmail(userDetails.getEmail());
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(token);
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(UserDto.builder()
-                        .username(userDetails.getUsername())
-                        .email(userDetails.getEmail())
-                        .createdAt(userDetails.getCreatedAt())
-                        .updatedAt(userDetails.getUpdatedAt())
-                        .roles(roles)
-                        .build());
+                .body("Bearer " + token);
     }
 
     @PostMapping(path = "/sign_up", produces = MediaType.APPLICATION_JSON_VALUE)

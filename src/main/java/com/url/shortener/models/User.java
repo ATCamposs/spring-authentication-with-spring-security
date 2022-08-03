@@ -1,5 +1,6 @@
 package com.url.shortener.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -22,6 +23,7 @@ import java.util.UUID;
 })
 public class User {
     private String email;
+    @JsonIgnore
     private String password;
     @CreationTimestamp
     private Instant createdAt;
@@ -32,6 +34,7 @@ public class User {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(updatable = false, nullable = false)
+    @JsonIgnore
     private UUID id;
 
     @ManyToMany(fetch = FetchType.LAZY)

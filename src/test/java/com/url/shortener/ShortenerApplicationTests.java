@@ -89,7 +89,7 @@ class ShortenerApplicationTests {
         assertThat(Objects.requireNonNull(response.getHeaders().get("Set-Cookie")).get(0)).contains("jwt");
 
         // check user profile
-        var actualJwt = response.getBody().toString().split(" ")[1];
+        var actualJwt = response.getBody().split(" ")[1];
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", actualJwt);

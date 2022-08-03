@@ -63,11 +63,7 @@ public class AuthController {
         }
 
         var newUser = userService.createDefaultByParams(userRegisterParams);
-        return ResponseEntity.status(HttpStatus.CREATED).body(UserDto.builder()
-                .username("123")
-                .email("12312")
-                .createdAt(Instant.now())
-                .build());
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 
     @PostMapping(path = "/sign_out", produces = MediaType.APPLICATION_JSON_VALUE)

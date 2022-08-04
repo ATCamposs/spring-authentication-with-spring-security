@@ -2,9 +2,6 @@ package com.url.shortener;
 
 import com.url.shortener.controllers.params.LoginParams;
 import com.url.shortener.controllers.params.UserRegisterParams;
-import com.url.shortener.repositories.RoleRepository;
-import com.url.shortener.repositories.UserRepository;
-import com.url.shortener.services.PasswordService;
 import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
@@ -24,15 +21,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ShortenerApplicationTests {
     @Autowired
     private TestRestTemplate restTemplate;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordService passwordService;
 
     @Test
     void create_account_login_and_logout() throws ParseException {
